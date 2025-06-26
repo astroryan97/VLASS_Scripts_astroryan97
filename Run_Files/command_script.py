@@ -82,7 +82,7 @@ try:
     # Final imaging pass using the Tier-2 mask
     hif_makeimages(hm_masking = 'manual')
 
-    # Apply primary beam correction to final VLA and VLASS images
+    # Apply primary beam correction to final VLA/VLASS images
     hifv_pbcor(pipelinemode = "automatic")
 
     # Creates RMS (noise) maps for each image
