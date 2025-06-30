@@ -38,6 +38,7 @@ try:
     # Import the raw visibility data into pipeline
     hifv_importdata(nocopy = True, vis = vis, session = ['session_1'])
 
+    ''' First imaging step '''
     # Add to a list of images to be produced with hif_makeimages()
     # uses hif_tclean() to invoke CASA tclean
     # Many of the hif_editimlist() inputs map directly to tclean parameters
@@ -49,10 +50,9 @@ try:
     # Generate initial CLEAN masks using the VLASS QL component catalog
     hifv_vlassmasking(maskingmode = 'vlass-se-tier-1', vlass_ql_database = vlass_ql_database_path)
 
-    # First round of imaging
     # Compute clean map - Compute clean results from a list of specified targets
     hif_makeimages(hm_masking = 'manual')
-
+    
     # Check and flag bad data based on VLASS‐imaging standards
     # Flag possible RFI using rflag and tfcrop
     hifv_checkflag(checkflagmode = 'vlass-imaging')
@@ -65,6 +65,7 @@ try:
     # Selfcal task executing gaincal and applycal
     hifv_selfcal(selfcalmode = 'VLASS-SE')
     
+    ''' Second imaging cycle (after self-cal) '''
     # Reload the imaging parameter list cause why not
     hif_editimlist(parameter_file=param_list)
 
@@ -72,6 +73,7 @@ try:
     #change the parameter_file to your image parameter file
     hif_makeimages(hm_masking = 'manual')
 
+    ''' Final imaging step '''
     # Reload parameters again before the Tier-2 masking step
     hif_editimlist(parameter_file=param_list)
 
